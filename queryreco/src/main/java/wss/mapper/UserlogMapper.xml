@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="wss.model.Userlog">
+	<!-- 
+		起别名 
+		<alias>
+			<typeAlias alias="UserLog" type="wss.mapper.Userlog" />
+		</alias>
+	-->
+	
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+    <!-- <insert id="insert" parameterType="Weather" useGeneratedKeys="true" keyProperty="id">-->
+    
+    <resultMap type="wss.model.Userlog" id="userlogMap">
+    	<result column="id" property="id" jdbcType="BIGINT" />
+	<result column="visittime" property="visittime" jdbcType="VARCHAR" />
+	<result column="uid" property="uid" jdbcType="VARCHAR" />
+	<result column="queryword" property="queryword" jdbcType="VARCHAR" />
+	<result column="urlrank" property="urlrank" jdbcType="VARCHAR" />
+	<result column="clickorder" property="clickorder" jdbcType="VARCHAR" />
+	<result column="clickurl" property="clickurl" jdbcType="VARCHAR" />
+</resultMap>
+
+ 	<insert id="insert" parameterType="Userlog">
+  <![CDATA[  
+      INSERT INTO
+        userlog (           
+        	visittime,
+        	uid,
+        	queryword,
+        	urlrank,
+        	clickorder,
+        	clickurl
+        ) VALUES (        	
+        	#{visittime,jdbcType=VARCHAR},
+        	#{uid,jdbcType=VARCHAR},
+        	#{queryword,jdbcType=VARCHAR},
+        	#{urlrank,jdbcType=VARCHAR},
+        	#{clickorder,jdbcType=VARCHAR},
+        	#{clickurl,jdbcType=VARCHAR}
+        )
+    ]]>
+		
+    </insert>
+    <select id="selectAll" resultType="Userlog">
+		select * from userlog;
+    </select>
+    
+      <insert id="batchInsert"  useGeneratedKeys="false" parameterType="java.util.List" >
+ 		insert into userlog(visittime,uid,queryword,urlrank,clickorder,clickurl) values 
+    <foreach collection="list" item="poi" index="index" separator="," >
+         (#{poi.visittime,jdbcType=VARCHAR},#{poi.uid,jdbcType=VARCHAR},#{poi.queryword,jdbcType=VARCHAR},#{poi.urlrank,jdbcType=VARCHAR},#{poi.clickorder},#{poi.clickurl,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  
+</mapper>
